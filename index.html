@@ -514,7 +514,10 @@ footer .heart { color: var(--coral); animation: pulse 1.2s infinite; display: in
     <span class="section-tag">关于我</span>
     <h2 class="section-title">镜头背后的故事</h2>
     <div class="about-grid">
-      <img src="images/portrait.jpg" alt="万先生" class="about-photo reveal" loading="lazy">
+      <picture>
+        <source srcset="images/portrait.webp" type="image/webp">
+        <img src="images/portrait.jpg" alt="万先生" class="about-photo reveal" loading="lazy">
+      </picture>
       <div class="about-text reveal">
         <h3>嗨，我是万先生</h3>
         <p>
@@ -659,19 +662,19 @@ navLinks.querySelectorAll('a').forEach(link => {
 
 /* ===== Gallery Generation ===== */
 const works = [
-  { src: 'images/work-1.jpeg', title: '作品 01' },
-  { src: 'images/work-2.jpg', title: '作品 02' },
-  { src: 'images/work-3.jpg', title: '作品 03' },
-  { src: 'images/work-4.jpg', title: '作品 04' },
-  { src: 'images/work-5.jpg', title: '作品 05' },
-  { src: 'images/work-6.jpg', title: '作品 06' },
-  { src: 'images/work-7.jpg', title: '作品 07' },
-  { src: 'images/work-8.jpg', title: '作品 08' },
-  { src: 'images/work-9.jpeg', title: '作品 09' },
-  { src: 'images/work-10.jpg', title: '作品 10' },
-  { src: 'images/work-11.jpg', title: '作品 11' },
-  { src: 'images/work-12.jpg', title: '作品 12' },
-  { src: 'images/work-13.png', title: '作品 13' },
+  { jpg: 'images/work-1.jpg', webp: 'images/work-1.webp', title: '作品 01' },
+  { jpg: 'images/work-2.jpg', webp: 'images/work-2.webp', title: '作品 02' },
+  { jpg: 'images/work-3.jpg', webp: 'images/work-3.webp', title: '作品 03' },
+  { jpg: 'images/work-4.jpg', webp: 'images/work-4.webp', title: '作品 04' },
+  { jpg: 'images/work-5.jpg', webp: 'images/work-5.webp', title: '作品 05' },
+  { jpg: 'images/work-6.jpg', webp: 'images/work-6.webp', title: '作品 06' },
+  { jpg: 'images/work-7.jpg', webp: 'images/work-7.webp', title: '作品 07' },
+  { jpg: 'images/work-8.jpg', webp: 'images/work-8.webp', title: '作品 08' },
+  { jpg: 'images/work-9.jpg', webp: 'images/work-9.webp', title: '作品 09' },
+  { jpg: 'images/work-10.jpg', webp: 'images/work-10.webp', title: '作品 10' },
+  { jpg: 'images/work-11.jpg', webp: 'images/work-11.webp', title: '作品 11' },
+  { jpg: 'images/work-12.jpg', webp: 'images/work-12.webp', title: '作品 12' },
+  { jpg: 'images/work-13.jpg', webp: 'images/work-13.webp', title: '作品 13' },
 ];
 
 const galleryGrid = document.getElementById('galleryGrid');
@@ -679,7 +682,12 @@ works.forEach((work, i) => {
   const item = document.createElement('div');
   item.className = 'gallery-item reveal';
   item.innerHTML = `
-    <img src="${work.src}" alt="${work.title}" loading="lazy">
+    <picture>
+      <source srcset="${work.webp}" type="image/webp">
+      <img src="${work.jpg}" alt="${work.title}" loading="lazy"
+           style="filter:blur(20px);transition:filter 0.5s ease;"
+           onload="this.style.filter='blur(0)'">
+    </picture>
     <div class="gallery-overlay"><span>${work.title}</span></div>
   `;
   item.addEventListener('click', () => openLightbox(i));
@@ -694,7 +702,8 @@ let currentIdx = 0;
 
 function openLightbox(idx) {
   currentIdx = idx;
-  lightboxImg.src = works[idx].src;
+  lightboxImg.src = works[idx].jpg;
+  lightboxImg.srcset = works[idx].webp;
   lightboxCounter.textContent = `${idx + 1} / ${works.length}`;
   lightbox.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -707,13 +716,13 @@ function closeLightbox() {
 
 function prevImage() {
   currentIdx = (currentIdx - 1 + works.length) % works.length;
-  lightboxImg.src = works[currentIdx].src;
+  lightboxImg.src = works[currentIdx].jpg;
   lightboxCounter.textContent = `${currentIdx + 1} / ${works.length}`;
 }
 
 function nextImage() {
   currentIdx = (currentIdx + 1) % works.length;
-  lightboxImg.src = works[currentIdx].src;
+  lightboxImg.src = works[currentIdx].jpg;
   lightboxCounter.textContent = `${currentIdx + 1} / ${works.length}`;
 }
 
