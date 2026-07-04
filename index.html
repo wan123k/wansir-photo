@@ -35,33 +35,16 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== Custom Cursor ===== */
-.cursor {
-  width: 24px; height: 24px;
-  border: 2px solid var(--coral);
-  border-radius: 50%;
-  position: fixed; pointer-events: none; z-index: 9999;
-  transition: transform 0.15s ease, border-color 0.3s, background 0.3s;
-  transform: translate(-50%, -50%);
-}
-.cursor-dot {
-  width: 6px; height: 6px; background: var(--coral);
-  border-radius: 50%;
-  position: fixed; pointer-events: none; z-index: 9999;
-  transform: translate(-50%, -50%);
-}
-.cursor.hover { transform: translate(-50%, -50%) scale(2.2); background: rgba(231, 90, 58, 0.1); border-color: var(--sunset); }
-
 /* ===== Navigation ===== */
 nav {
   position: fixed; top: 0; width: 100%; z-index: 1000;
   padding: 1rem 2rem;
-  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
   display: flex; justify-content: space-between; align-items: center;
+  will-change: transform;
 }
 nav.scrolled {
-  background: rgba(255, 244, 234, 0.94);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 244, 234, 0.97);
   box-shadow: 0 2px 30px rgba(92, 56, 38, 0.10);
   padding: 0.65rem 2rem;
 }
@@ -84,7 +67,7 @@ nav.scrolled .nav-links a { color: var(--brown); }
   content: ''; position: absolute; bottom: 0; left: 0;
   width: 0; height: 2px;
   background: var(--coral);
-  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.3s ease;
   border-radius: 2px;
 }
 .nav-links a:hover { color: var(--coral); }
@@ -99,7 +82,7 @@ nav.scrolled .nav-links a { color: var(--brown); }
 .menu-toggle span {
   width: 26px; height: 2.5px;
   background: #fff; border-radius: 3px;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease;
 }
 nav.scrolled .menu-toggle span { background: var(--coral); }
 
@@ -109,7 +92,12 @@ nav.scrolled .menu-toggle span { background: var(--coral); }
   display: flex; align-items: center; justify-content: center;
   position: relative;
   background: url('images/portrait.jpg') center/cover no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
+}
+@supports (background-attachment: fixed) {
+  @media (min-width: 1025px) {
+    .hero { background-attachment: fixed; }
+  }
 }
 .hero::before {
   content: ''; position: absolute; inset: 0;
@@ -163,7 +151,7 @@ nav.scrolled .menu-toggle span { background: var(--coral); }
   font-weight: 600; font-size: 0.95rem;
   text-decoration: none;
   cursor: pointer; border: none;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
 .btn-primary {
   background: var(--coral);
@@ -273,15 +261,17 @@ section { padding: 6rem 2rem; position: relative; z-index: 1; }
   overflow: hidden;
   border-radius: 16px;
   cursor: pointer;
-  aspect-ratio: auto;
   background: var(--terracotta);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 400px;
 }
 .gallery-item img {
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.5s ease;
+  will-change: transform;
 }
 .gallery-item:hover img { transform: scale(1.06); }
 .gallery-item:hover {
@@ -336,7 +326,7 @@ section { padding: 6rem 2rem; position: relative; z-index: 1; }
   width: 56px; height: 56px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.3s;
+  transition: background 0.25s ease;
 }
 .lightbox-nav:hover { background: rgba(255,255,255,0.2); }
 .lightbox-prev { left: 1.5rem; }
@@ -358,7 +348,7 @@ section { padding: 6rem 2rem; position: relative; z-index: 1; }
   border-radius: 20px;
   border: 1px solid rgba(212, 116, 74, 0.15);
   text-align: center;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .service-card:hover {
   transform: translateY(-8px);
@@ -398,7 +388,8 @@ section { padding: 6rem 2rem; position: relative; z-index: 1; }
   background: var(--card-bg);
   color: var(--dark);
   font-size: 0.95rem; font-family: inherit;
-  transition: all 0.3s ease; outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
   resize: vertical;
 }
 .contact-form input:focus,
@@ -434,10 +425,11 @@ footer .heart { color: var(--coral); animation: pulse 1.2s infinite; display: in
 
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.visible { opacity: 1; transform: translateY(0); will-change: auto; }
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
@@ -455,25 +447,19 @@ footer .heart { color: var(--coral); animation: pulse 1.2s infinite; display: in
   .nav-links {
     position: fixed; top: 0; right: -100%;
     width: 70%; max-width: 300px; height: 100vh;
-    background: rgba(255, 244, 234, 0.98);
-    backdrop-filter: blur(20px);
+    background: rgba(255, 244, 234, 0.99);
     flex-direction: column;
     padding: 5rem 2rem; gap: 1.8rem;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: right 0.35s ease;
     box-shadow: -5px 0 30px rgba(0,0,0,0.08);
   }
   .nav-links a { color: var(--brown) !important; }
   .nav-links.open { right: 0; }
-  .cursor, .cursor-dot { display: none; }
-  .hero { background-attachment: scroll; }
+  .hero { background-attachment: scroll !important; }
 }
 </style>
 </head>
 <body>
-
-<!-- Custom Cursor -->
-<div class="cursor"></div>
-<div class="cursor-dot"></div>
 
 <!-- Navigation -->
 <nav id="navbar">
@@ -632,25 +618,18 @@ footer .heart { color: var(--coral); animation: pulse 1.2s infinite; display: in
 </div>
 
 <script>
-/* ===== Custom Cursor ===== */
-const cursor = document.querySelector('.cursor');
-const cursorDot = document.querySelector('.cursor-dot');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  cursorDot.style.left = e.clientX + 'px';
-  cursorDot.style.top = e.clientY + 'px';
-});
-document.querySelectorAll('a, button, .btn, .gallery-item, .service-card, input, textarea').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-});
-
-/* ===== Navbar ===== */
+/* ===== Navbar (throttled scroll) ===== */
 const navbar = document.getElementById('navbar');
+let ticking = false;
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-});
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, { passive: true });
 
 /* ===== Mobile Menu ===== */
 const menuToggle = document.getElementById('menuToggle');
@@ -684,9 +663,7 @@ works.forEach((work, i) => {
   item.innerHTML = `
     <picture>
       <source srcset="${work.webp}" type="image/webp">
-      <img src="${work.jpg}" alt="${work.title}" loading="lazy"
-           style="filter:blur(20px);transition:filter 0.5s ease;"
-           onload="this.style.filter='blur(0)'">
+      <img src="${work.jpg}" alt="${work.title}" loading="lazy" decoding="async">
     </picture>
     <div class="gallery-overlay"><span>${work.title}</span></div>
   `;
