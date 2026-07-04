@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>万先生 · 摄影作品集</title>
+<link rel="preload" as="image" href="images/portrait.jpg" imagesrcset="images/portrait.webp" fetchpriority="high">
 <style>
 /* ===== CSS Variables - 温暖高饱和色系 ===== */
 :root {
@@ -502,7 +503,9 @@ footer .heart { color: var(--coral); animation: pulse 1.2s infinite; display: in
     <div class="about-grid">
       <picture>
         <source srcset="images/portrait.webp" type="image/webp">
-        <img src="images/portrait.jpg" alt="万先生" class="about-photo reveal" loading="lazy">
+        <img src="images/portrait.jpg" alt="万先生" class="about-photo reveal" loading="lazy" decoding="async"
+             onload="this.style.filter='blur(0)';this.style.transform='scale(1)';"
+             style="filter:blur(8px);transform:scale(1.04);transition:filter 0.5s ease,transform 0.5s ease;">
       </picture>
       <div class="about-text reveal">
         <h3>嗨，我是万先生</h3>
@@ -639,34 +642,67 @@ navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => navLinks.classList.remove('open'));
 });
 
+/* ===== Placeholders (inline base64, 6.9KB total — instant display) ===== */
+const PLACEHOLDERS = {"portrait.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAsAB4DASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAwQFAQL/xAAfEAACAgICAwEAAAAAAAAAAAAAAQIDBBEhMRMUQVH/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/ALSXAG2xRCyeok3Lm+Sg/mTZu9k+qbch2vbRZUw5J8CORBM6eSv0DZcmZrUZXWtjcIpIn+wovsLDKWuxCp0b2/psrXoVqZ3N8CkDsue+zI5LX0BY+QeyxK//2Q==","work-1.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAArAB4DASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAwUBAgQG/8QAHRAAAgMAAwEBAAAAAAAAAAAAAAECAxEEElFBIf/EABcBAQEBAQAAAAAAAAAAAAAAAAEAAwL/xAAYEQEAAwEAAAAAAAAAAAAAAAAAAQISEf/aAAwDAQACEQMRAD8A13X4hbyL9+heU2tFtjbZhFW2lpT1kaVjFsIoDxdNuZXuiqyvJD26HZC+6n9LQyxRWFyZRwG2B46eVRmto34MWgckvByIsS28d+AHxn4O5xj4D6R8OoqdP//Z","work-10.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAmAB4DASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAMCBAUBBv/EABsQAQEAAwEBAQAAAAAAAAAAAAEAAgMRMQQh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAXEQEBAQEAAAAAAAAAAAAAAAABABEC/9oADAMBAAIRAxEAPwDzwTDBp6sOtd1/P08qsDbPcEoJaO3Rw8qmeHGFEydoONo6sgKjicmmaUSo5P3IlR2Y/s9yWgnalOnbt0IiSGCIkv/Z","work-11.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAaAB4DASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAwQBAgUG/8QAHBAAAgMBAQEBAAAAAAAAAAAAAAECAxExQRMh/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAEC/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhEDEQA/AOfgtDRgsAwGIp4StRRw0lU74ES/Q9eYIVn1dHa4rBGro7XwrMRZiA/XPS9wpLoWv//Z","work-12.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAaAB4DASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAQIDAAT/xAAZEAEBAQEBAQAAAAAAAAAAAAABAAMCERL/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/EABgRAQEAAwAAAAAAAAAAAAAAAAEAAhES/9oADAMBAAIRAxEAPwDi4z8qnFI1JzUr61TzuZPKaw71KTpS5tRgUPps6MGRkhj1ow+5GWEkb//Z","work-13.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAsAB4DASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAQMEAgUA/8QAHRAAAgMAAwEBAAAAAAAAAAAAAAECAxEhMWEEEv/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABURAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIRAxEAPwDrRiBrAxfBicjLTSC0KjMZoC1LgTbZhl24iW630LFVdmspjJYcmu7H2Ux+lZ2FsSSu9J52aYk2LbBDP3gVc0J08Ff/2Q==","work-2.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAvAB4DASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAABAMFAQL/xAAfEAACAgICAwEAAAAAAAAAAAAAAQIDBBESIRMiMWH/xAAXAQEBAQEAAAAAAAAAAAAAAAACAAED/8QAGBEBAQEBAQAAAAAAAAAAAAAAABECAQP/2gAMAwEAAhEDEQA/ANS3J4v6SWZ+hMuTTYNWMFY245W39EV3ckYFdr2aWNY3E3nUHl9yYaNexmRH2OVQQY64xUY09j8eOonlRQipLQoevOJX1dko1tGrOpMn4EUHG4CoPYmqL0WVCKRq0R69K//Z","work-3.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAaAB4DASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAQIDBAD/xAAXEAEBAQEAAAAAAAAAAAAAAAAAAQIR/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAIB/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhEDEQA/ANM5B7E9VK7rLRp7AqGdWqSqjHWdT1lQtTVQM54csMQsf//Z","work-4.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAsAB4DASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAIDAQT/xAAaEAADAAMBAAAAAAAAAAAAAAAAAQIREiED/8QAGAEAAwEBAAAAAAAAAAAAAAAAAQIEAwX/xAAaEQEBAAIDAAAAAAAAAAAAAAAAARESAgMh/9oADAMBAAIRAxEAPwCCYyYilm9Rbs5l4VWR8kFQOxaaeLqFgWoBeoP0yYZW6QmgjhlpaY+iYdiXrjjTDYUwzU4Xiy83w5JZWXwJbH//2Q==","work-5.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAsAB4DASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAwECBAX/xAAbEAADAQADAQAAAAAAAAAAAAAAAQIRAxIhMf/EABgBAAMBAQAAAAAAAAAAAAAAAAECAwAE/8QAGBEBAQEBAQAAAAAAAAAAAAAAAQACESH/2gAMAwEAAhEDEQA/APCSLhqVoqjwq6CmZWHCYNUBtBHsE5WDolrDkmsFV+HNrtfPktYFX0j5DPYbLyXR2FMvZho0aNrSpmSoVtf/2Q==","work-6.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAnAB4DASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAgMEAAUB/8QAHRAAAgIDAQEBAAAAAAAAAAAAAAECAxESIQQiQf/EABcBAAMBAAAAAAAAAAAAAAAAAAABAgT/xAAYEQEBAQEBAAAAAAAAAAAAAAAAAgERMf/aAAwDAQACEQMRAD8A5vm87yuHVpr0QVdKj+Bzwlwz1bTMiUg0skin0prlwWarcKnakwHPZEc7cyHVSyiKEvXxjI2YAmxew4zorUbf0V0PhjDspFYxLkYxUeJp/9k=","work-7.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCABDAB4DASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAgMEAAEF/8QAGxAAAwADAQEAAAAAAAAAAAAAAAECAxEhEjH/xAAWAQEBAQAAAAAAAAAAAAAAAAABAgD/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAMAwEAAhEDEQA/APD8NDsUjPKGRKLQCp4TZJ6ei42hF4umIVQzG+i1I3GtGChfBWRrYe+CL6zUu+TqegW2BdaIqoY7BdbE++hz1BqsVPHwnzQVu0IyNMYio/PR+NcAaWw5ekMaj2waZjCCqZxNmMDP/9k=","work-8.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAsAB4DASIAAhEBAxEB/8QAGgABAAIDAQAAAAAAAAAAAAAABAECAAMFBv/EABsQAAIDAQEBAAAAAAAAAAAAAAABAgMhETEE/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/APNI2RRCib64gQlwsmTKPEU6RWKHTfXBk1R6KjXgXBpxwNLGMuXECm9ATTLRsJdic2r0bU8IK/QsOfYtH3+AbPRCv//Z","work-9.jpg":"data:image/jpeg;base64,/9j/2wBDABsSFBcUERsXFhceHBsgKEIrKCUlKFE6PTBCYFVlZF9VXVtqeJmBanGQc1tdhbWGkJ6jq62rZ4C8ybqmx5moq6T/2wBDARweHigjKE4rK06kbl1upKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKSkpKT/wAARCAAoAB4DASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEEAwX/xAAbEAADAQEBAQEAAAAAAAAAAAAAAQMCERMhMf/EABgBAAMBAQAAAAAAAAAAAAAAAAABAgME/8QAFxEBAQEBAAAAAAAAAAAAAAAAAAECEf/aAAwDAQACEQMRAD8A3dBOpLrTMtVaIkdl1xd6jVTnqpotsfBNNaT+EdctM6es9RNWPQlTrKLCfSqeOoeIffwpxPiH0TNbrI/NMAMo2o80h8ABiP/Z"};
+
 /* ===== Gallery Generation ===== */
 const works = [
-  { jpg: 'images/work-1.jpg', webp: 'images/work-1.webp', title: '作品 01' },
-  { jpg: 'images/work-2.jpg', webp: 'images/work-2.webp', title: '作品 02' },
-  { jpg: 'images/work-3.jpg', webp: 'images/work-3.webp', title: '作品 03' },
-  { jpg: 'images/work-4.jpg', webp: 'images/work-4.webp', title: '作品 04' },
-  { jpg: 'images/work-5.jpg', webp: 'images/work-5.webp', title: '作品 05' },
-  { jpg: 'images/work-6.jpg', webp: 'images/work-6.webp', title: '作品 06' },
-  { jpg: 'images/work-7.jpg', webp: 'images/work-7.webp', title: '作品 07' },
-  { jpg: 'images/work-8.jpg', webp: 'images/work-8.webp', title: '作品 08' },
-  { jpg: 'images/work-9.jpg', webp: 'images/work-9.webp', title: '作品 09' },
-  { jpg: 'images/work-10.jpg', webp: 'images/work-10.webp', title: '作品 10' },
-  { jpg: 'images/work-11.jpg', webp: 'images/work-11.webp', title: '作品 11' },
-  { jpg: 'images/work-12.jpg', webp: 'images/work-12.webp', title: '作品 12' },
-  { jpg: 'images/work-13.jpg', webp: 'images/work-13.webp', title: '作品 13' },
+  { file: 'work-1.jpg', title: '作品 01' },
+  { file: 'work-2.jpg', title: '作品 02' },
+  { file: 'work-3.jpg', title: '作品 03' },
+  { file: 'work-4.jpg', title: '作品 04' },
+  { file: 'work-5.jpg', title: '作品 05' },
+  { file: 'work-6.jpg', title: '作品 06' },
+  { file: 'work-7.jpg', title: '作品 07' },
+  { file: 'work-8.jpg', title: '作品 08' },
+  { file: 'work-9.jpg', title: '作品 09' },
+  { file: 'work-10.jpg', title: '作品 10' },
+  { file: 'work-11.jpg', title: '作品 11' },
+  { file: 'work-12.jpg', title: '作品 12' },
+  { file: 'work-13.jpg', title: '作品 13' },
 ];
 
 const galleryGrid = document.getElementById('galleryGrid');
 works.forEach((work, i) => {
+  const jpg = 'images/' + work.file;
+  const webp = 'images/' + work.file.replace('.jpg', '.webp');
+  const placeholder = PLACEHOLDERS[work.file] || '';
+
   const item = document.createElement('div');
   item.className = 'gallery-item reveal';
-  item.innerHTML = `
-    <picture>
-      <source srcset="${work.webp}" type="image/webp">
-      <img src="${work.jpg}" alt="${work.title}" loading="lazy" decoding="async">
-    </picture>
-    <div class="gallery-overlay"><span>${work.title}</span></div>
-  `;
+
+  // Placeholder displayed instantly, real image loads behind
+  const img = document.createElement('img');
+  img.src = placeholder || jpg;
+  img.alt = work.title;
+  img.loading = 'lazy';
+  img.decoding = 'async';
+  if (placeholder) {
+    img.style.filter = 'blur(10px)';
+    img.style.transform = 'scale(1.05)';
+    img.style.transition = 'filter 0.5s ease, transform 0.5s ease';
+
+    // Load real image
+    const realImg = new Image();
+    realImg.onload = function() {
+      img.src = jpg;
+      img.style.filter = 'blur(0)';
+      img.style.transform = 'scale(1)';
+    };
+    realImg.src = jpg;
+    // Also try WebP for modern browsers
+    const webpImg = new Image();
+    webpImg.onload = function() { realImg.src = webp; };
+    webpImg.src = webp;
+  }
+
+  item.appendChild(img);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'gallery-overlay';
+  overlay.innerHTML = '<span>' + work.title + '</span>';
+  item.appendChild(overlay);
+
   item.addEventListener('click', () => openLightbox(i));
   galleryGrid.appendChild(item);
 });
@@ -677,10 +713,13 @@ const lightboxImg = document.getElementById('lightboxImg');
 const lightboxCounter = document.getElementById('lightboxCounter');
 let currentIdx = 0;
 
+function getImagePath(file) {
+  return 'images/' + file;
+}
+
 function openLightbox(idx) {
   currentIdx = idx;
-  lightboxImg.src = works[idx].jpg;
-  lightboxImg.srcset = works[idx].webp;
+  lightboxImg.src = getImagePath(works[idx].file);
   lightboxCounter.textContent = `${idx + 1} / ${works.length}`;
   lightbox.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -693,13 +732,13 @@ function closeLightbox() {
 
 function prevImage() {
   currentIdx = (currentIdx - 1 + works.length) % works.length;
-  lightboxImg.src = works[currentIdx].jpg;
+  lightboxImg.src = getImagePath(works[currentIdx].file);
   lightboxCounter.textContent = `${currentIdx + 1} / ${works.length}`;
 }
 
 function nextImage() {
   currentIdx = (currentIdx + 1) % works.length;
-  lightboxImg.src = works[currentIdx].jpg;
+  lightboxImg.src = getImagePath(works[currentIdx].file);
   lightboxCounter.textContent = `${currentIdx + 1} / ${works.length}`;
 }
 
